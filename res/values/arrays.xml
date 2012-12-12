@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="kind_of_particles">
+    	<item>Square</item>
+    	<item>Circle</item>
+	</string-array>
+	
+    <string-array name="kind_of_particles_values">
+    	<item>SQUARE</item>
+    	<item>CIRCLE</item>
+	</string-array>
+	
+    <string-array name="color_of_particle">
+    	<item>Random</item>
+		<item>White</item>
+		<item>Light Gray</item>
+   		<item>Yellow</item>
+		<item>Green</item>
+     	<item>Magenta</item>
+ 	</string-array>
+	
+    <string-array name="color_of_particle_values">
+    	<item>RANDOM</item>
+		<item>WHITE</item>
+    	<item>LTGRAY</item>
+    	<item>YELLOW</item>
+    	<item>GREEN</item>
+    	<item>MAGENTA</item>
+ 		</string-array>
+    
+</resources>	

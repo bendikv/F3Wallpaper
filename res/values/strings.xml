@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">F3 Wall</string>
+    <string name="f3wall_description">F3 Wall Description</string>
+
+    <string name="enableTouch">Enable touch</string>
+    <string name="kindOfParticles">Kind of particles</string>
+    <string name="colorOfParticles">Color of particles</string>
+    <string name="delayTime">Delay</string>
+    <string name="delayTimeSummary">Delay before move logo (sec)</string>
+    
+</resources>
