@@ -170,9 +170,9 @@ public class F3WallService extends WallpaperService {
 		private int framesPerSecond = 20;
 		
 		// x coords of particles of the logo
-		private float[] figureX = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 4.0f, 5.0f, 6.0f, 7.0f, 3.0f, 4.0f, 5.0f, 6.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 5.0f, 6.0f, 7.0f, 8.0f, 4.0f, 5.0f, 6.0f, 7.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 13.0f};
+		private float[] figureX;
 		// y coords of particles of the logo
-		private float[] figureY = {0.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 3.0f, 3.0f, 4.0f, 4.0f, 5.0f, 5.0f, 6.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f, 2.0f, 3.0f, 3.0f, 3.0f, 3.0f, 4.0f, 4.0f, 4.0f, 4.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 6.0f, 6.0f, 6.0f, 6.0f, 0.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 3.0f, 3.0f, 4.0f, 4.0f, 5.0f, 5.0f, 6.0f, 6.0f, 0.0f};
+		private float[] figureY;
 		
 		// Table of colors for the logo
 		private int colors[] = {Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.LTGRAY, Color.YELLOW, Color.WHITE};
@@ -202,7 +202,23 @@ public class F3WallService extends WallpaperService {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 				doOffsetNotificationsEnabled();
 			cubes = new ArrayList<F3Cube>();
-			makeCubes(cubes);
+			
+			int size = prefs.getInt("cubeSize", 0);
+			if (size > 0) {
+				if (size > 0) {
+					figureX = new float[size];
+					figureY = new float[size];
+					for (int i=0;i<size;i++) {
+						figureX[i] = prefs.getFloat("cubeX"+i, 0);
+						figureY[i] = prefs.getFloat("cubeY"+i, 0);
+					}
+				}
+			}
+			else {
+				figureX = new float[]{0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 4.0f, 5.0f, 6.0f, 7.0f, 3.0f, 4.0f, 5.0f, 6.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 4.0f, 7.0f, 8.0f, 3.0f, 5.0f, 6.0f, 7.0f, 8.0f, 4.0f, 5.0f, 6.0f, 7.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 10.0f, 11.0f, 13.0f};
+				figureY = new float[]{0.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 3.0f, 3.0f, 4.0f, 4.0f, 5.0f, 5.0f, 6.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f, 2.0f, 3.0f, 3.0f, 3.0f, 3.0f, 4.0f, 4.0f, 4.0f, 4.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 6.0f, 6.0f, 6.0f, 6.0f, 0.0f, 0.0f, 1.0f, 1.0f, 2.0f, 2.0f, 3.0f, 3.0f, 4.0f, 4.0f, 5.0f, 5.0f, 6.0f, 6.0f, 0.0f};
+			}
+				makeCubes(cubes);
 			handler.post(drawRunner);
 		}
 		
@@ -267,13 +283,6 @@ public class F3WallService extends WallpaperService {
 			
 			super.onOffsetsChanged(xOffset, yOffset, xOffsetStep, yOffsetStep,
 		                xPixelOffset, yPixelOffset);
-			
-			//Log.v("","xOffset="+xOffset+", yOffset="+yOffset+"");
-			//Log.v("","xOffsetStep="+xOffsetStep+", yOffsetStep="+yOffsetStep+"");
-			//Log.v("","xPixelOffset="+xPixelOffset+", yPixelOffset="+yPixelOffset+"");
-			
-			//this.xOffset = xOffset*this.density;
-			//this.yOffset = yOffset*this.density;
 			
 			SurfaceHolder holder = getSurfaceHolder();
 			Canvas canvas = null;
@@ -386,7 +395,7 @@ public class F3WallService extends WallpaperService {
 		}
 
 		/**
-		 * Making cubes from hard coded array of coordinates
+		 * Making cubes with array of coordinates
 		 * @param cubes - array of particles
 		 */
 		private void makeCubes(List<F3Cube> cubes) {
@@ -447,6 +456,20 @@ public class F3WallService extends WallpaperService {
 			touchEnabled = prefs.getBoolean("touch", false);
 			kindOfParticles = prefs.getString("kind", F3WallpaperEngine.PARTICLE_SQUARE);
 			colorOfParticles = prefs.getString("color", "RANDOM");
+			
+			int size = prefs.getInt("cubeSize", 0);
+			if (size > 0) {
+				if (size > 0) {
+					figureX = new float[size];
+					figureY = new float[size];
+					for (int i=0;i<size;i++) {
+						figureX[i] = prefs.getFloat("cubeX"+i, 0);
+						figureY[i] = prefs.getFloat("cubeY"+i, 0);
+					}
+				}
+				cubes.clear();
+				makeCubes(cubes);
+			}
 			
 			color = getColorFromPreference(colorOfParticles);
 		}

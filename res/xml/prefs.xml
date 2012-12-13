@@ -26,5 +26,14 @@
 	android:title="@string/delayTime"
 	android:summary="@string/delayTimeSummary"
 	android:dialogTitle="@string/delayTime" />
+
+<com.fivecubed.f3wall.LogoBuilderPreference 
+	android:dialogLayout="@layout/logo_builder"
+	android:dialogTitle="Logo builder"
+	android:dialogMessage="Build your logo"
+	android:key="logo"
+	android:title="Logo builder"
+	android:summary="Allow you build your own logo"
+	android:defaultValue="" /> 
     
 </PreferenceScreen> 
